@@ -1,0 +1,23 @@
+# bundle install
+bundle install --path=vendor/bundle --binstubs=vendor/bin
+
+# Rspecで定義されたexampleを定義順に出力する
+bundle exec rspec -f d --dry-run --order defined
+
+# PHPのエラーログ仕込み
+error_log(date("Y/m/d H:i:s") . PHP_EOL, 3, DIR_BASE."/../my-errors.log");
+$start_time = microtime(true);
+$end_time = microtime(true);
+$spent_time = $end_time - $start_time;
+error_log(var_export($spent_time, true) . PHP_EOL, 3, DIR_BASE."/../my-errors.log");
+
+# 指定した文字列長の文字列の生成
+len=256; output=""; for i in `seq 1 ${len}`; do output="${output}a"; done; echo "${output}" | pbcopy
+len=256; output=""; for i in `seq 1 ${len}`; do output="${output}$(expr ${i} % 10)"; done; echo "${output}" | pbcopy
+
+# 鍵情報を生成する
+### 秘密鍵と公開鍵を生成
+ssh-keygen -t rsa -b 4096
+### 秘密鍵からpemファイルを生成する
+keyfile="id_rsa" && openssl rsa -in ~/.ssh/${keyfile} -outform pem > ${keyfile}.pem
+
